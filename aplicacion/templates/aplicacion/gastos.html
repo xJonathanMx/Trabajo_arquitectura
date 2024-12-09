@@ -14,38 +14,38 @@
     <div id="general"> 
     <div id="contenedor_izquierda">
         <div>
-            <a href="{%     url 'ingresar'%}" class="btn btn-primary">Ingresar Usuario</a>
-            <a href="{%     url 'departamentos'%}" class="btn btn-primary">Departamentos</a>
-            <a href="{%     url 'Gastos'%}" class="btn btn-primary">Gastos</a>
+            <a href="{%     url 'index'%}" class="btn btn-warning">Volver</a>
+            <a href="{% url 'ingresarGasto'  %}" class="btn btn-primary">Agregar Gasto</a>
             </div>
         
         <table class="table table-hover table-responsive">
             <thead>
                 <tr>
+                    <th>id</th>
+                    <th>Monto</th>
                     <th>Rut</th>
-                    <th>Nombre completo</th>
-                    <th>Teléfono</th>
+                    <th>Nombre Completo Residente</th>
                     <th>correo</th>
                     <th>Operaciones</th>
                 </tr>
             </thead>
         
         <tbody>
-            {% for u in user %}
+            {% for g in gasto %}
                 <tr>
-                    <td>{{ u.rut }}</td>
-                    <td>{{ u.nombre_completo }}</td>
-                    <td>{{ u.telefono }}</td>
-                    <td>{{ u.correo_usuario }}</td>
+                    <td>{{ g.id_gasto_comun}}</td>
+                    <td>{{ g.monto }}</td>
+                    <td>{{ g.residente.rut}}</td>
+                    <td>{{ g.residente.nombre_completo}}</td>
+                    <td>{{ g.residente.correo_usuario}}</td>
                     <td>
-                        
-                        <a href="{% url 'actualizar' u.rut  %}" class="btn btn-warning">Modificar</a>
-                        <form action="{% url 'eliminar' u.rut %}" method="POST" style="display:inline;">
+                        <a href="{% url "UpGasto" g.id_gasto_comun %}" class="btn btn-warning">Modificar</a>
+                        <form action="{% url 'eliminargasto' g.id_gasto_comun %}" method="POST" style="display:inline;">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-danger">Eliminar</button>
                     </td>
                 </tr>
-                {% endfor %}
+                {% endfor %}    
         </tbody>
     </table>
     </div>

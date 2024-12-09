@@ -1,28 +1,30 @@
 from django.db import models
 
 # Create your models here.
-class Usuario(models.Model):
-    rut=models.IntegerField(primary_key=True)
+class Residente(models.Model):
+    rut=models.IntegerField(primary_key=True,null=False)
     nombre_completo=models.CharField(max_length=100)
     telefono=models.IntegerField()
     correo_usuario=models.CharField( max_length=64)
-    #detalle_pago=models.ForeignKey("detalle_pago", on_delete=models.CASCADE)
-
-
+    def __str__(self):
+        return f"{self.rut} {self.nombre_completo}"
+    
 class departamento(models.Model):
-    id_departamento=models.AutoField(primary_key=True)
-    num_piso=models.IntegerField()
+    numero_piso=models.IntegerField(primary_key=True)
     descripcion_dpto=models.CharField( max_length=100)
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-
-class detalle_pago(models.Model):
-    id_pago=models.AutoField(primary_key=True)
-    fecha_pago=models.DateField()
-    tipo_pago=models.IntegerField()
-    gasto=models.ForeignKey("Gasto_Comun", on_delete=models.CASCADE)
+    num_habitaciones=models.IntegerField()
+    residente = models.ForeignKey(Residente,null=True,blank=True, on_delete=models.CASCADE)
+   
+    def __str__(self):
+        return f"{self.numero_piso} {self.residente}"
     
 class Gasto_Comun(models.Model):
     id_gasto_comun=models.AutoField(primary_key=True)
     monto=models.IntegerField()
     fecha_vencimiento=models.DateField()
+    residente = models.ForeignKey(Residente, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return f"{self.monto} {self.fecha_vencimiento}"
+    
     
